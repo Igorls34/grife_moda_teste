@@ -105,3 +105,16 @@ a:focus-visible, button:focus-visible{outline:3px solid var(--ring);outline-offs
 
 /* Misc */
 .noscript{background:#fff3cd;color:#664d03;padding:12px;border-top:1px solid #ffe69c}
+
+.hero-banner{
+  position:relative; min-height:340px; padding:0;
+  background:#0b1220 url("../assets/banners/hero-desktop.webp") center/cover no-repeat;
+}
+.hero-banner::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(0,0,0,.42), rgba(0,0,0,.18));
+}
+.hero-banner .hero-inner{ position:relative; z-index:1; padding:56px 16px }
+@media (max-width:720px){
+  .hero-banner{ background-image:url("../assets/banners/hero-mobile.webp") }
+}
