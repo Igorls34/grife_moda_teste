@@ -167,9 +167,10 @@ function logEvent(name, data) {
 (function renderProductsHome() {
   const grid = document.getElementById("product-grid");
   if (!grid) return;
-  const list = products.slice(0, 8); // <= só os 8 primeiros
 
+  const list = products.slice(0, 8);
   const frag = document.createDocumentFragment();
+
   list.forEach((p) => {
     const card = document.createElement("article");
     card.className = "card";
@@ -186,21 +187,29 @@ function logEvent(name, data) {
         </div>
       </div>
     `;
-    card.querySelector(".js-buy").addEventListener("click", () => {
+
+    // 🔧 Listener tem que ficar AQUI, onde 'card' existe
+    const btn = card.querySelector(".js-buy");
+    btn.addEventListener("click", () => {
       const payload = {
         nome: p.name,
         cor: p.color || "-",
         tamanho: p.sizes?.[0] || "-",
         preco: p.price,
-        url: `${BUSINESS.baseUrl}/produto.html?sku=${p.sku}`
+        url: `${BUSINESS.baseUrl}/produto.html?sku=${p.sku}`,
+        campaign: "produto",
+        content: `card_${p.sku}`
       };
-      console.log("cta_whatsapp_clicked", { sku: p.sku, ...payload });
+      console.log("cta_whatsapp_clicked", { sku: p.sku, price: p.price, placement: "card" });
       window.open(whatsappHref(payload), "_blank", "noopener");
     });
+
     frag.appendChild(card);
   });
+
   grid.appendChild(frag);
 })();
+
 
 // ============================
 // Contador 48h (Oferta de lançamento)
@@ -231,12 +240,38 @@ function logEvent(name, data) {
 
 window.PRODUCTS = products;
 
-function withUtm(url) {
-  const sep = url.includes("?") ? "&" : "?";
-  return `${url}${sep}utm_source=site&utm_medium=whatsapp&utm_campaign=produto`;
+// 1) helper pra anexar UTM sem quebrar query
+function withUtm(url, { campaign = "produto", content } = {}) {
+  const qs = new URLSearchParams({
+    utm_source: "site",
+    utm_medium: "whatsapp",
+    utm_campaign: campaign,
+  });
+  if (content) qs.set("utm_content", content);
+  return url + (url.includes("?") ? "&" : "?") + qs.toString();
 }
 
-function whatsappHref({ nome, cor, tamanho, preco, url }) {
-  const msg = `Oi Emerson! Quero o produto [${nome}] (${cor} / ${tamanho}). Valor: ${fmtBRL(preco)}. Link: ${withUtm(url)}`;
+// 2) monta link do Whats com a URL do produto + UTMs dentro da mensagem
+function whatsappHref({ nome, cor, tamanho, preco, url, campaign, content }) {
+  const link = withUtm(url, { campaign, content });
+  const msg = `Oi Emerson! Quero o produto [${nome}] (${cor} / ${tamanho}). Valor: ${fmtBRL(preco)}. Link: ${link}`;
   return `https://wa.me/${BUSINESS.wppNumber}?text=${encodeURIComponent(msg)}`;
 }
+
+["cta-wpp-top","cta-wpp-hero","cta-wpp-bottom"].forEach(id=>{
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener("click", () => {
+    const payload = {
+      nome: "Atendimento",
+      cor: "-",
+      tamanho: "-",
+      preco: 0,
+      url: BUSINESS.baseUrl,
+      campaign: "atendimento",
+      content: id
+    };
+    console.log("cta_whatsapp_generic", { placement: id });
+    window.open(whatsappHref(payload), "_blank", "noopener");
+  });
+});
