@@ -27,28 +27,36 @@
   <meta property="og:locale" content="pt_BR">
 
   <!-- JSON-LD LocalBusiness -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ClothingStore",
-    "name": "Grife Moda - Loja Online",
-    "url": "https://grife-moda-teste.vercel.app/",
-    "telephone": "+55 24 99823-6007",
-    "address": {
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "Grife Moda - Loja Online",
+  "url": "https://grife-moda-teste.vercel.app/",
+  "telephone": "+55 24 99823-6007",
+  "address": [
+    {
       "@type": "PostalAddress",
-      "streetAddress": "RUA E NÚMERO AQUI",
+      "streetAddress": "Rua Rio Içá, 47",
       "addressLocality": "Volta Redonda",
       "addressRegion": "RJ",
       "addressCountry": "BR"
     },
-    "areaServed": "Volta Redonda - Água Limpa",
-    "paymentAccepted": "Cash, Credit Card, Debit Card, Pix",
-    "openingHoursSpecification": [
-      {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"18:30"},
-      {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:00","closes":"15:00"}
-    ]
-  }
-  </script>
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Visconde do Rio Branco, 337",
+      "addressLocality": "Volta Redonda",
+      "addressRegion": "RJ",
+      "addressCountry": "BR"
+    }
+  ],
+  "areaServed": "Volta Redonda - Água Limpa",
+  "paymentAccepted": "Cash, Credit Card, Debit Card, Pix",
+  "openingHoursSpecification": [
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}
+  ]
+}
+</script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -75,7 +83,7 @@
       </div>
     </div>
   </header>
-  
+
       <!-- Botão de ajuda flutuante (abre o tour a qualquer momento) -->
     <button class="help-fab" id="help-fab" aria-label="Ajuda e tutorial">?</button>
 
@@ -129,7 +137,7 @@
     <div class="container hero-inner">
         <div>
         <h1>Moda que gira estoque — não poeira.</h1>
-        <p class="muted">PIX, retirada na loja e entrega com taxa. Troca em até 15 dias.</p>
+        <p class="muted">PIX, retirada na loja e entrega com taxa simbólica ou via Correios. Troca em até 7 dias (produto com etiqueta e sem uso).</p>
         <div class="cta-row">
             <a class="btn" href="#produtos">Ver novidades</a>
             <button class="btn btn-accent" id="cta-wpp-hero" type="button">Falar no WhatsApp</button>
@@ -168,14 +176,19 @@
       <div class="container">
         <h2>Contato</h2>
         <ul class="contact-list">
-          <li><strong>WhatsApp:</strong> <a href="tel:+5524998236007">(+55 24) 99823-6007</a></li>
-          <li><strong>Endereço:</strong> (coloque rua/nº) — Água Limpa, Volta Redonda/RJ —
-            <a href="https://www.google.com/maps/search/?api=1&query=RUA+NUMERO+Volta+Redonda+RJ" target="_blank" rel="noopener">Ver no mapa</a>
-          </li>
-          <li><strong>Horários:</strong> Seg–Sex 09:00–18:30 • Sáb 09:00–15:00 • Dom fechado</li>
-          <li><strong>Pagamentos:</strong> Pix, débito, crédito, dinheiro</li>
-          <li><strong>Entrega:</strong> Retirada na loja ou entrega com taxa</li>
-          <li><strong>Troca:</strong> Até 15 dias, com a peça em bom estado</li>
+            <li><strong>WhatsApp:</strong> <a href="tel:+5524998236007">(+55 24) 99823-6007</a></li>
+
+            <li><strong>Endereço 1:</strong> Rua Rio Içá, 47 — Água Limpa, Volta Redonda/RJ —
+                <a href="https://www.google.com/maps/search/?api=1&query=Rua+Rio+I%C3%A7%C3%A1,+47,+Volta+Redonda,+RJ" target="_blank" rel="noopener">Ver no mapa</a>
+            </li>
+
+            <li><strong>Endereço 2:</strong> Av. Visconde do Rio Branco, 337 — Volta Redonda/RJ —
+                <a href="https://www.google.com/maps/search/?api=1&query=Av.+Visconde+do+Rio+Branco,+337,+Volta+Redonda,+RJ" target="_blank" rel="noopener">Ver no mapa</a>
+            </li>
+
+            <li><strong>Horários:</strong> 09:30–18:30, <strong>segunda a sábado</strong></li>
+            <li><strong>Entrega:</strong> taxa simbólica ou via Correios</li>
+            <li><strong>Troca:</strong> até 7 dias, produto com etiqueta e sem uso</li>
         </ul>
         <div class="cta-row">
             <button class="btn btn-accent" id="cta-wpp-bottom" type="button">Comprar no WhatsApp</button>
@@ -189,7 +202,7 @@
       <p class="muted">Preços e disponibilidade sujeitos a alteração sem aviso prévio.</p>
       <div class="badges">
         <span class="badge">PIX</span>
-        <span class="badge">Troca 15 dias</span>
+        <span class="badge">Troca 7 dias</span>
         <span class="badge">Retire hoje</span>
       </div>
     </div>
