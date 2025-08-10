@@ -3,12 +3,14 @@
 // ============================
 const BUSINESS = {
   wppNumber: "5524998236007",
-  baseUrl: "https://grife-moda-teste.vercel.app", // <— troquei
-  utm: "?utm_source=site&utm_medium=whatsapp&utm_campaign=produto",
+  baseUrl: "https://grife-moda-teste.vercel.app",
 };
 
 // ============================
-// Produtos (exemplos • substitua quando tiver fotos reais)
+// Produtos (MVP)
+// Dica: quando otimizar as fotos, adicione `imageBase` SEM extensão e SEM acento
+// ex.: imageBase: "./assets/products/camiseta-preta"
+// e gere ...-600.webp e ...-1200.webp. Até lá, mantenha `image` como está.
 // ============================
 const products = [
   {
@@ -20,6 +22,7 @@ const products = [
     image: "./assets/fotos/camiseta-preta-basica.webp",
     url: "/produto/camiseta-basica-preta",
     highlight: true
+    // imageBase: "./assets/products/camiseta-preta" // (quando tiver as versões 600/1200)
   },
   {
     sku: "GM-TS-002",
@@ -55,7 +58,7 @@ const products = [
     price: 139.90,
     sizes: ["38", "40", "42", "44"],
     color: "Azul",
-    image: "./assets/fotos/calça-jeans-slim-azul.webp",
+    image: "./assets/fotos/calça-jeans-slim-azul.webp", // ⚠️ acento pode dar ruim em produção; ideal renomear p/ "calca-jeans-slim-azul.webp"
     url: "/produto/calca-jeans-slim-azul"
   },
   {
@@ -64,7 +67,7 @@ const products = [
     price: 119.90,
     sizes: ["P", "M", "G"],
     color: "Cinza",
-    image: "./assets/fotos/calça-jogger-moletom.webp",
+    image: "./assets/fotos/calça-jogger-moletom.webp", // ideal renomear p/ "calca-jogger-moletom.webp"
     url: "/produto/calca-jogger-moletom-cinza"
   },
   {
@@ -92,7 +95,7 @@ const products = [
     price: 149.90,
     sizes: ["P", "M", "G", "GG"],
     color: "Verde",
-    image: "./assets/fotos/moletom-hoddie-verde.webp",
+    image: "./assets/fotos/moletom-hoddie-verde.webp", // typo no nome? (hoodie)
     url: "/produto/moletom-hoodie-verde",
     highlight: true
   },
@@ -107,26 +110,34 @@ const products = [
   }
 ];
 
-
 // ============================
 // Utilidades
 // ============================
 const fmtBRL = (n) =>
   n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-function whatsappHref({ nome, cor, tamanho, preco, url }) {
-  const msg = `Oi Emerson! Quero o produto [${nome}] (${cor} / ${tamanho}). Valor: ${fmtBRL(preco)}. Link: ${url}${BUSINESS.utm}`;
+function withUtm(url, { campaign = "produto", content } = {}) {
+  const qs = new URLSearchParams({
+    utm_source: "site",
+    utm_medium: "whatsapp",
+    utm_campaign: campaign,
+  });
+  if (content) qs.set("utm_content", content);
+  return url + (url.includes("?") ? "&" : "?") + qs.toString();
+}
+
+function whatsappHref({ nome, cor, tamanho, preco, url, campaign, content }) {
+  const link = withUtm(url, { campaign, content });
+  const msg = `Oi Emerson! Quero o produto [${nome}] (${cor} / ${tamanho}). Valor: ${fmtBRL(preco)}. Link: ${link}`;
   return `https://wa.me/${BUSINESS.wppNumber}?text=${encodeURIComponent(msg)}`;
 }
 
 function openWhats(payload) {
-  const href = whatsappHref(payload);
-  window.open(href, "_blank", "noopener");
+  window.open(whatsappHref(payload), "_blank", "noopener");
 }
 
 function logEvent(name, data) {
-  // plugue no GA4 depois; por hora, console
-  console.log(name, data);
+  console.log(name, data); // plugue GA4 aqui depois
 }
 
 // ============================
@@ -143,7 +154,7 @@ function logEvent(name, data) {
 })();
 
 // ============================
-// CTA de WhatsApp genéricos
+// CTA de WhatsApp genéricos (top/hero/rodapé) — 1 listener por ID
 // ============================
 ["cta-wpp-top", "cta-wpp-hero", "cta-wpp-bottom"].forEach((id) => {
   const el = document.getElementById(id);
@@ -154,15 +165,35 @@ function logEvent(name, data) {
       cor: "-",
       tamanho: "-",
       preco: 0,
-      url: BUSINESS.baseUrl
+      url: BUSINESS.baseUrl,
+      campaign: "atendimento",
+      content: id
     };
-    logEvent("cta_whatsapp_generic", payload);
+    logEvent("cta_whatsapp_generic", { placement: id });
     openWhats(payload);
   });
 });
 
 // ============================
-// Render de produtos (só 8 produtos)
+// Helpers de imagem (suporta base 600/1200 quando existir)
+// ============================
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[s]));
+}
+function cardImgHTML(p) {
+  const alt = escapeHtml(p.name);
+  // Se tiver imageBase (sem extensão), usa srcset; senão cai no src simples
+  if (p.imageBase) {
+    const src = `${p.imageBase}-1200.webp`;
+    const srcset = `${p.imageBase}-600.webp 600w, ${p.imageBase}-1200.webp 1200w`;
+    const sizes = `(max-width: 700px) 50vw, 25vw`;
+    return `<img src="${src}" srcset="${srcset}" sizes="${sizes}" alt="${alt}" loading="lazy" decoding="async" width="1200" height="1200">`;
+  }
+  return `<img src="${p.image}" alt="${alt}" loading="lazy" decoding="async" width="1200" height="1200">`;
+}
+
+// ============================
+// Render de produtos (Home: 8 itens)
 // ============================
 (function renderProductsHome() {
   const grid = document.getElementById("product-grid");
@@ -175,20 +206,20 @@ function logEvent(name, data) {
     const card = document.createElement("article");
     card.className = "card";
     card.innerHTML = `
-      <img src="${p.image}" alt="${p.name}" loading="lazy" />
+      ${cardImgHTML(p)}
       <div class="card-body">
         ${p.highlight ? '<span class="badge">Destaque</span>' : ""}
-        <h3 class="title">${p.name}</h3>
+        <h3 class="title">${escapeHtml(p.name)}</h3>
         <div class="price">${fmtBRL(p.price)}</div>
         <div class="muted">Tamanhos: ${p.sizes.join(", ")}</div>
         <div class="cta-row" style="margin-top:10px">
-          <a class="btn" href="./produto.html?sku=${p.sku}">Detalhes</a>
+          <a class="btn" href="./produto.html?sku=${encodeURIComponent(p.sku)}">Detalhes</a>
           <button class="btn btn-accent js-buy" type="button">Comprar no WhatsApp</button>
         </div>
       </div>
     `;
 
-    // 🔧 Listener tem que ficar AQUI, onde 'card' existe
+    // Botão comprar (card)
     const btn = card.querySelector(".js-buy");
     btn.addEventListener("click", () => {
       const payload = {
@@ -196,12 +227,12 @@ function logEvent(name, data) {
         cor: p.color || "-",
         tamanho: p.sizes?.[0] || "-",
         preco: p.price,
-        url: `${BUSINESS.baseUrl}/produto.html?sku=${p.sku}`,
+        url: `${BUSINESS.baseUrl}/produto.html?sku=${encodeURIComponent(p.sku)}`,
         campaign: "produto",
         content: `card_${p.sku}`
       };
-      console.log("cta_whatsapp_clicked", { sku: p.sku, price: p.price, placement: "card" });
-      window.open(whatsappHref(payload), "_blank", "noopener");
+      logEvent("cta_whatsapp_clicked", { sku: p.sku, price: p.price, placement: "card" });
+      openWhats(payload);
     });
 
     frag.appendChild(card);
@@ -210,12 +241,10 @@ function logEvent(name, data) {
   grid.appendChild(frag);
 })();
 
-
 // ============================
 // Contador 48h (Oferta de lançamento)
 // ============================
 (function countdown48h() {
-  // 48h a partir do primeiro carregamento
   const now = Date.now();
   const end = now + 48 * 60 * 60 * 1000;
 
@@ -238,40 +267,5 @@ function logEvent(name, data) {
   tick();
 })();
 
+// exporta para outras páginas (produto/coleções)
 window.PRODUCTS = products;
-
-// 1) helper pra anexar UTM sem quebrar query
-function withUtm(url, { campaign = "produto", content } = {}) {
-  const qs = new URLSearchParams({
-    utm_source: "site",
-    utm_medium: "whatsapp",
-    utm_campaign: campaign,
-  });
-  if (content) qs.set("utm_content", content);
-  return url + (url.includes("?") ? "&" : "?") + qs.toString();
-}
-
-// 2) monta link do Whats com a URL do produto + UTMs dentro da mensagem
-function whatsappHref({ nome, cor, tamanho, preco, url, campaign, content }) {
-  const link = withUtm(url, { campaign, content });
-  const msg = `Oi Emerson! Quero o produto [${nome}] (${cor} / ${tamanho}). Valor: ${fmtBRL(preco)}. Link: ${link}`;
-  return `https://wa.me/${BUSINESS.wppNumber}?text=${encodeURIComponent(msg)}`;
-}
-
-["cta-wpp-top","cta-wpp-hero","cta-wpp-bottom"].forEach(id=>{
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.addEventListener("click", () => {
-    const payload = {
-      nome: "Atendimento",
-      cor: "-",
-      tamanho: "-",
-      preco: 0,
-      url: BUSINESS.baseUrl,
-      campaign: "atendimento",
-      content: id
-    };
-    console.log("cta_whatsapp_generic", { placement: id });
-    window.open(whatsappHref(payload), "_blank", "noopener");
-  });
-});

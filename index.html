@@ -3,26 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Grife Moda — Água Limpa, Volta Redonda/RJ | Loja Online</title>
   <meta name="description" content="Loja de roupas em Água Limpa, Volta Redonda/RJ. Novidades semanais, preços e tamanhos claros. Compre pelo WhatsApp. Pix, débito, crédito e dinheiro. Retire na loja ou entrega com taxa. Troca em até 15 dias.">
   <meta name="theme-color" content="#111" />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="canonical" href="https://grife-moda-teste.vercel.app/">
+
+  <!-- Preload do banner (melhora LCP) -->
+  <link rel="preload" as="image"
+        href="/assets/banners/hero-desktop.webp"
+        imagesrcset="/assets/banners/hero-mobile.webp 720w, /assets/banners/hero-desktop.webp 1920w"
+        imagesizes="100vw">
+
   <link rel="stylesheet" href="./css/style.css" />
   <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
 
-  <!-- Open Graph (compartilhamento) -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Grife Moda — Loja Online">
   <meta property="og:description" content="Vitrine online + compra no WhatsApp. Retirada na loja ou entrega com taxa.">
   <meta property="og:type" content="website">
-    <meta property="og:image" content="https://grife-moda-teste.vercel.app/assets/hero-desktop.webp">
-    <meta property="og:url" content="https://grife-moda-teste.vercel.app/">
+  <meta property="og:image" content="https://grife-moda-teste.vercel.app/assets/banners/hero-desktop.webp">
+  <meta property="og:url" content="https://grife-moda-teste.vercel.app/">
+  <meta property="og:locale" content="pt_BR">
 
-  <!-- JSON-LD LocalBusiness (ajuste rua/número quando tiver) -->
+  <!-- JSON-LD LocalBusiness -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ClothingStore",
     "name": "Grife Moda - Loja Online",
+    "url": "https://grife-moda-teste.vercel.app/",
+    "telephone": "+55 24 99823-6007",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "RUA E NÚMERO AQUI",
@@ -30,10 +41,12 @@
       "addressRegion": "RJ",
       "addressCountry": "BR"
     },
-    "telephone": "+55 24 99823-6007",
     "areaServed": "Volta Redonda - Água Limpa",
     "paymentAccepted": "Cash, Credit Card, Debit Card, Pix",
-    "url": "https://grife-moda-teste.vercel.app/assets/og.jpg"
+    "openingHoursSpecification": [
+      {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"18:30"},
+      {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:00","closes":"15:00"}
+    ]
   }
   </script>
 </head>
@@ -42,8 +55,8 @@
 
   <header class="site-header">
     <div class="container">
-      <a class="brand" href="#home" aria-label="Grife Moda — início">
-        <img src="./assets/logo.svg" width="32" height="32" alt="" />
+      <a class="brand" href="./index.html#home" aria-label="Grife Moda — início">
+        <img src="./assets/logo.svg" width="32" height="32" alt="">
         <span>Grife Moda — Loja Online</span>
       </a>
 
@@ -78,6 +91,7 @@
     </div>
     </section>
 
+
     <!-- Promo com contador -->
     <section class="promo">
       <div class="container promo-inner">
@@ -107,16 +121,17 @@
       <div class="container">
         <h2>Contato</h2>
         <ul class="contact-list">
-          <li><strong>WhatsApp:</strong> <a href="tel:+5524998236007">(+55 24) 99823-6007</a>
-          <li li><strong>Endereço:</strong> (coloque rua/nº) — Água Limpa, Volta Redonda/RJ - <a href="https://www.google.com/maps/search/?api=1&query=RUA+NUMERO+Volta+Redonda+RJ" target="_blank" rel="noopener">Ver no mapa</a></li> 
+          <li><strong>WhatsApp:</strong> <a href="tel:+5524998236007">(+55 24) 99823-6007</a></li>
+          <li><strong>Endereço:</strong> (coloque rua/nº) — Água Limpa, Volta Redonda/RJ —
+            <a href="https://www.google.com/maps/search/?api=1&query=RUA+NUMERO+Volta+Redonda+RJ" target="_blank" rel="noopener">Ver no mapa</a>
+          </li>
           <li><strong>Horários:</strong> Seg–Sex 09:00–18:30 • Sáb 09:00–15:00 • Dom fechado</li>
           <li><strong>Pagamentos:</strong> Pix, débito, crédito, dinheiro</li>
           <li><strong>Entrega:</strong> Retirada na loja ou entrega com taxa</li>
           <li><strong>Troca:</strong> Até 15 dias, com a peça em bom estado</li>
         </ul>
         <div class="cta-row">
-          <button class="btn btn-accent" id="cta-wpp-bottom" type="button">Comprar no WhatsApp</button>
-        </div>
+            <button class="btn btn-accent" id="cta-wpp-bottom" type="button">Comprar no WhatsApp</button>
       </div>
     </section>
   </main>
@@ -125,11 +140,11 @@
     <div class="container">
       <p>© Grife Moda — Volta Redonda/RJ</p>
       <p class="muted">Preços e disponibilidade sujeitos a alteração sem aviso prévio.</p>
-    </div>
-    <div class="badges">
+      <div class="badges">
         <span class="badge">PIX</span>
         <span class="badge">Troca 15 dias</span>
         <span class="badge">Retire hoje</span>
+      </div>
     </div>
   </footer>
 
