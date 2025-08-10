@@ -269,3 +269,83 @@ function cardImgHTML(p) {
 
 // exporta para outras páginas (produto/coleções)
 window.PRODUCTS = products;
+
+// ============================
+// Mini-tutorial (mostra 1x por dispositivo)
+// ============================
+(function tourSetup(){
+  const MODAL_ID = "tour-modal";
+  const KEY = "gm_seen_tour_v1"; // troque se mudar o conteúdo do tour
+  const modal   = document.getElementById(MODAL_ID);
+  const btnFab  = document.getElementById("help-fab");
+  if (!modal || !btnFab) return; // HTML do tour não está na página
+
+  const btnClose = document.getElementById("tour-close");
+  const btnPrev  = document.getElementById("tour-prev");
+  const btnNext  = document.getElementById("tour-next");
+  const btnDone  = document.getElementById("tour-done");
+  const chkAgain = document.getElementById("tour-show-again");
+  const steps    = Array.from(modal.querySelectorAll(".tour-step"));
+
+  let idx = 0;
+
+  function setOpen(open){
+    modal.hidden = !open;
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
+  function render(){
+    steps.forEach((el, i) => el.hidden = i !== idx);
+    const last = idx === steps.length - 1;
+    btnPrev.disabled = idx === 0;
+    btnNext.hidden = last;
+    btnDone.hidden = !last;
+  }
+
+  function rememberSeen(){
+    // Se marcar "Mostrar novamente", NÃO grava como visto
+    if (chkAgain && chkAgain.checked) {
+      localStorage.removeItem(KEY);
+    } else {
+      localStorage.setItem(KEY, "1");
+    }
+  }
+
+  function openTour(source="auto"){
+    idx = 0;
+    render();
+    setOpen(true);
+    document.getElementById("tour-title")?.focus?.();
+    logEvent?.("tour_open", { source });
+  }
+
+  function closeTour(action="close"){
+    setOpen(false);
+    rememberSeen();
+    logEvent?.("tour_close", { action, show_again: !!(chkAgain && chkAgain.checked) });
+  }
+
+  // Navegação
+  btnPrev?.addEventListener("click", () => { if (idx > 0) { idx--; render(); } });
+  btnNext?.addEventListener("click", () => {
+    if (idx < steps.length - 1) { idx++; render(); }
+    else { closeTour("next_end"); } // segurança extra
+  });
+  btnDone?.addEventListener("click", () => closeTour("done"));
+  btnClose?.addEventListener("click", () => closeTour("x"));
+
+  // ESC e clique no backdrop
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.hidden) closeTour("esc");
+  });
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeTour("backdrop");
+  });
+
+  // Botão flutuante abre a qualquer momento
+  btnFab.addEventListener("click", () => openTour("fab"));
+
+  // Abre automático só na 1ª visita
+  const firstVisit = !localStorage.getItem(KEY);
+  if (firstVisit) setTimeout(() => openTour("auto"), 800);
+})();

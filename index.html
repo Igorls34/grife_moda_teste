@@ -75,6 +75,53 @@
       </div>
     </div>
   </header>
+  
+      <!-- Botão de ajuda flutuante (abre o tour a qualquer momento) -->
+    <button class="help-fab" id="help-fab" aria-label="Ajuda e tutorial">?</button>
+
+    <!-- Modal de tutorial -->
+    <div class="modal-backdrop" id="tour-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tour-title">
+        <header class="modal-head">
+        <h3 id="tour-title">Novo por aqui? 👋</h3>
+        <button class="btn btn-close" id="tour-close" aria-label="Fechar">×</button>
+        </header>
+
+        <div class="modal-body">
+        <!-- Passo 1 -->
+        <article class="tour-step" data-step="1">
+            <h4>1) Ver produtos</h4>
+            <p>Role até <strong>Novidades</strong> ou clique em <strong>Coleções</strong> no topo para ver todas as peças.</p>
+        </article>
+
+        <!-- Passo 2 -->
+        <article class="tour-step" data-step="2" hidden>
+            <h4>2) Comprar no WhatsApp</h4>
+            <p>Em cada produto, toque em <strong>Comprar no WhatsApp</strong>. A mensagem já vai com o nome, tamanho e link.</p>
+        </article>
+
+        <!-- Passo 3 -->
+        <article class="tour-step" data-step="3" hidden>
+            <h4>3) Promo & retirada</h4>
+            <p>Confira a <strong>Promo relâmpago</strong> no topo. Pode <strong>retirar na loja</strong> ou pedir <strong>entrega com taxa</strong>. Troca em até <strong>15 dias</strong>.</p>
+        </article>
+        </div>
+
+        <footer class="modal-foot">
+        <div class="left">
+            <label class="dontshow">
+            <input type="checkbox" id="tour-show-again" />
+            Mostrar novamente da próxima vez
+            </label>
+        </div>
+        <div class="right">
+            <button class="btn" id="tour-prev" disabled>← Anterior</button>
+            <button class="btn btn-primary" id="tour-next">Próximo →</button>
+            <button class="btn btn-accent" id="tour-done" hidden>Entendi</button>
+        </div>
+        </footer>
+    </div>
+    </div>
 
   <main id="conteudo">
     <!-- Hero / Destaque -->
