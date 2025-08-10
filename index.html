@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -136,3 +137,143 @@
   <script src="./js/main.js" defer></script>
 </body>
 </html>
+=======
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grife Moda — Loja Online</title>
+  <meta name="description" content="Grife Moda — Água Limpa, Volta Redonda/RJ. Novidades, preços e tamanhos claros. Compre pelo WhatsApp. Pix, débito, crédito e dinheiro. Retire na loja ou entrega com taxa. Troca em até 15 dias." />
+  <meta name="theme-color" content="#111" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+
+  <!-- Open Graph (compartilhamento) -->
+  <meta property="og:title" content="Grife Moda — Loja Online">
+  <meta property="og:description" content="Vitrine online + compra no WhatsApp. Retirada na loja ou entrega com taxa.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="./assets/placeholder.svg">
+  <meta property="og:url" content="/">
+
+  <!-- JSON-LD LocalBusiness (ajuste rua/número quando tiver) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ClothingStore",
+    "name": "Grife Moda - Loja Online",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "RUA E NÚMERO AQUI",
+      "addressLocality": "Volta Redonda",
+      "addressRegion": "RJ",
+      "addressCountry": "BR"
+    },
+    "telephone": "+55 24 99823-6007",
+    "areaServed": "Volta Redonda - Água Limpa",
+    "paymentAccepted": "Cash, Credit Card, Debit Card, Pix",
+    "url": "https://example.com"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="#home" aria-label="Grife Moda — início">
+        <img src="./assets/logo.svg" width="32" height="32" alt="" />
+        <span>Grife Moda — Loja Online</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Navegação principal">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+        <ul id="menu" class="menu">
+          <li><a href="#home">Início</a></li>
+          <li><a href="#produtos">Produtos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#produtos">Ver novidades</a>
+        <button class="btn btn-accent" id="cta-wpp-top" type="button">Comprar no WhatsApp</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- Hero / Destaque -->
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div>
+          <h1>Moda que gira estoque — não poeira.</h1>
+          <p class="muted">PIX, retirada na loja e entrega com taxa. Troca em até 15 dias.</p>
+          <div class="cta-row">
+            <a class="btn" href="#produtos">Explorar coleção</a>
+            <button class="btn btn-accent" id="cta-wpp-hero" type="button">Falar no WhatsApp</button>
+          </div>
+        </div>
+        <img class="hero-media" src="./assets/placeholder.svg" alt="Vitrine Grife Moda" />
+      </div>
+    </section>
+
+    <!-- Promo com contador -->
+    <section class="promo">
+      <div class="container promo-inner">
+        <div>
+          <strong class="badge">Lançamento</strong>
+          <h2>Oferta 48h de abertura</h2>
+          <p>Use o cupom <strong>SITE10</strong> e garanta 10% OFF nos itens selecionados.</p>
+        </div>
+        <div class="countdown" aria-live="polite">
+          <div><span id="cd-h">48</span><small>h</small></div>
+          <div><span id="cd-m">00</span><small>min</small></div>
+          <div><span id="cd-s">00</span><small>s</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Produtos -->
+    <section id="produtos" class="produtos">
+      <div class="container">
+        <h2>Novidades</h2>
+        <div id="product-grid" class="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="contato">
+      <div class="container">
+        <h2>Contato</h2>
+        <ul class="contact-list">
+          <li><strong>WhatsApp:</strong> <a href="https://wa.me/5524998236007" target="_blank" rel="noopener">(+55 24) 99823-6007</a> — Emerson</li>
+          <li><strong>Endereço:</strong> (coloque rua/nº) — Água Limpa, Volta Redonda/RJ</li>
+          <li><strong>Horários:</strong> Seg–Sex 09:00–18:30 • Sáb 09:00–15:00 • Dom fechado</li>
+          <li><strong>Pagamentos:</strong> Pix, débito, crédito, dinheiro</li>
+          <li><strong>Entrega:</strong> Retirada na loja ou entrega com taxa</li>
+          <li><strong>Troca:</strong> Até 15 dias, com a peça em bom estado</li>
+        </ul>
+        <div class="cta-row">
+          <button class="btn btn-accent" id="cta-wpp-bottom" type="button">Comprar no WhatsApp</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© Grife Moda — Volta Redonda/RJ</p>
+      <p class="muted">Preços e disponibilidade sujeitos a alteração sem aviso prévio.</p>
+    </div>
+  </footer>
+
+  <noscript>
+    <div class="noscript">Habilite o JavaScript para melhor experiência (produtos e contador).</div>
+  </noscript>
+
+  <script src="./js/main.js" defer></script>
+</body>
+</html>
+>>>>>>> 5e5d05b519546dbd2e747fc48e96e6f5b122f549
