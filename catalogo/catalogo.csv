@@ -1,24 +1,11 @@
-<<<<<<< HEAD
-SKU,Nome do Produto,Categoria,Preço,Tamanhos,Cores,Descrição Curta,Destaque? (S/N),Foto1,Foto2,Foto3,Foto4,Foto5,Estoque
-TSH-EST-001,"Camiseta Estonada ""Essencial""",Camisetas / Básico Premium,"R$ 89,90","P, M, G, GG","Preto, Branco, Verde Militar, Azul Marinho.","A base de todo guarda-roupa. Toque macio, caimento perfeito e acabamento estonado que dá estilo sem esforço.",S,foto1.jpg,foto2.jpg,foto3.jpg,,,50
-CAL-JEA-002,"Calça Jeans Reta ""Urbana""",Jeans / Calças,"R$ 219,90","36, 38, 40, 42, 44","Azul Clássico, Preto Delavé.",Modelagem reta que nunca sai de moda. Confortável para o dia a dia e elegante para a noite. Lavagem clássica.,S,foto1.jpg,foto2.jpg,foto3.jpg,foto4.jpg,,35
-VES-MID-003,"Vestido Midi Canelado ""Versátil""",Vestidos,"R$ 189,90","P, M, G","Terracota, Preto, Verde Oliva.",Do trabalho ao happy hour. O tecido canelado se ajusta ao corpo com conforto e a fenda lateral traz um charme extra.,S,foto1.jpg,foto2.jpg,foto3.jpg,,,30
-MOL-CAP-004,"Moletom Básico com Capuz ""Conforto""",Moletons / Agasalhos,"R$ 249,90","P, M, G, GG","Cinza Mescla, Preto, Rosa Quartz.","Essencial para os dias mais frios. Flanelado por dentro, com bolso canguru e capuz. Qualidade que dura várias estações.",N,foto1.jpg,foto2.jpg,,,,25
-CAM-VIS-005,"Camisa de Botão em Viscose ""Praiana""",Camisas / Verão,"R$ 169,90","P, M, G","Fundo Off-white com estampa verde, Fundo azul com estampa branca.","Leve, fresca e cheia de estilo. Perfeita para usar aberta com um top ou fechada. Estampa de folhagens discretas.",N,foto1.jpg,foto2.jpg,foto3.jpg,,,40
-BER-CHI-006,"Bermuda Chino ""Fim de Weekend""",Bermudas,"R$ 149,90","38, 40, 42, 44, 46","Bege, Azul Marinho, Vinho.",A alternativa elegante ao jeans. Feita em sarja com um toque de elastano para máximo conforto.,N,foto1.jpg,foto2.jpg,,,,45
-REG-CET-007,"Regata de Alcinha em Cetim ""Noite""",Regatas / Festa,"R$ 119,90","P, M, G","Champanhe, Preto, Vermelho.",O toque de brilho que transforma o look. Tecido acetinado com caimento fluido e alças finas reguláveis.,S,foto1.jpg,foto2.jpg,foto3.jpg,,,30
-JAQ-COR-008,"Jaqueta Corta-Vento ""Sport""",Jaquetas / Fitness,"R$ 229,90","P, M, G, GG","Bloco de cores (azul/branco/amarelo), Preto total.","Leve, funcional e moderna. Repele a água e te protege do vento. Ideal para atividades físicas ou um look urbano.",N,foto1.jpg,foto2.jpg,,,,20
-SAI-PLI-009,"Saia Midi Plissada ""Elegante""",Saias,"R$ 199,90","P, M, G","Rosé, Chumbo, Verde Bandeira.","Movimento e elegância em uma só peça. O plissado está sempre em alta e combina com tudo, de tênis a salto.",S,foto1.jpg,foto2.jpg,foto3.jpg,,,25
-=======
-SKU,Nome do Produto,Categoria,Preço,Tamanhos,Cores,Descrição Curta,Destaque? (S/N),Foto1,Foto2,Foto3,Foto4,Foto5,Estoque
-TSH-EST-001,"Camiseta Estonada ""Essencial""",Camisetas / Básico Premium,"R$ 89,90","P, M, G, GG","Preto, Branco, Verde Militar, Azul Marinho.","A base de todo guarda-roupa. Toque macio, caimento perfeito e acabamento estonado que dá estilo sem esforço.",S,foto1.jpg,foto2.jpg,foto3.jpg,,,50
-CAL-JEA-002,"Calça Jeans Reta ""Urbana""",Jeans / Calças,"R$ 219,90","36, 38, 40, 42, 44","Azul Clássico, Preto Delavé.",Modelagem reta que nunca sai de moda. Confortável para o dia a dia e elegante para a noite. Lavagem clássica.,S,foto1.jpg,foto2.jpg,foto3.jpg,foto4.jpg,,35
-VES-MID-003,"Vestido Midi Canelado ""Versátil""",Vestidos,"R$ 189,90","P, M, G","Terracota, Preto, Verde Oliva.",Do trabalho ao happy hour. O tecido canelado se ajusta ao corpo com conforto e a fenda lateral traz um charme extra.,S,foto1.jpg,foto2.jpg,foto3.jpg,,,30
-MOL-CAP-004,"Moletom Básico com Capuz ""Conforto""",Moletons / Agasalhos,"R$ 249,90","P, M, G, GG","Cinza Mescla, Preto, Rosa Quartz.","Essencial para os dias mais frios. Flanelado por dentro, com bolso canguru e capuz. Qualidade que dura várias estações.",N,foto1.jpg,foto2.jpg,,,,25
-CAM-VIS-005,"Camisa de Botão em Viscose ""Praiana""",Camisas / Verão,"R$ 169,90","P, M, G","Fundo Off-white com estampa verde, Fundo azul com estampa branca.","Leve, fresca e cheia de estilo. Perfeita para usar aberta com um top ou fechada. Estampa de folhagens discretas.",N,foto1.jpg,foto2.jpg,foto3.jpg,,,40
-BER-CHI-006,"Bermuda Chino ""Fim de Weekend""",Bermudas,"R$ 149,90","38, 40, 42, 44, 46","Bege, Azul Marinho, Vinho.",A alternativa elegante ao jeans. Feita em sarja com um toque de elastano para máximo conforto.,N,foto1.jpg,foto2.jpg,,,,45
-REG-CET-007,"Regata de Alcinha em Cetim ""Noite""",Regatas / Festa,"R$ 119,90","P, M, G","Champanhe, Preto, Vermelho.",O toque de brilho que transforma o look. Tecido acetinado com caimento fluido e alças finas reguláveis.,S,foto1.jpg,foto2.jpg,foto3.jpg,,,30
-JAQ-COR-008,"Jaqueta Corta-Vento ""Sport""",Jaquetas / Fitness,"R$ 229,90","P, M, G, GG","Bloco de cores (azul/branco/amarelo), Preto total.","Leve, funcional e moderna. Repele a água e te protege do vento. Ideal para atividades físicas ou um look urbano.",N,foto1.jpg,foto2.jpg,,,,20
-SAI-PLI-009,"Saia Midi Plissada ""Elegante""",Saias,"R$ 199,90","P, M, G","Rosé, Chumbo, Verde Bandeira.","Movimento e elegância em uma só peça. O plissado está sempre em alta e combina com tudo, de tênis a salto.",S,foto1.jpg,foto2.jpg,foto3.jpg,,,25
->>>>>>> 5e5d05b519546dbd2e747fc48e96e6f5b122f549
-ACE-ECO-010,"Ecobag de Lona ""Eu Apoio o Local""",Acessórios,"R$ 39,90",Único,Cru.,Carregue tudo com estilo e consciência. Feita em lona resistente com a estampa da nossa marca.,N,foto1.jpg,,,,,100
+sku,name,price,sizes,color,image,url,highlight
+GM-TS-001,Camiseta Básica Preta,79.90,P|M|G,Preta,./assets/products/camiseta-preta.webp,/produto/camiseta-basica-preta,1
+GM-TS-002,Camiseta Oversized Off-White,89.90,M|G|GG,Off-White,./assets/products/camiseta-offwhite.webp,/produto/camiseta-oversized-offwhite,1
+GM-TS-003,Camiseta Estonada Azul,84.90,P|M|G|GG,Azul,./assets/products/camiseta-azul-estonada.webp,/produto/camiseta-estonada-azul,0
+GM-CM-001,Camisa Xadrez Vermelha,129.90,P|M|G|GG,Vermelha,./assets/products/camisa-xadrez-vermelha.webp,/produto/camisa-xadrez-vermelha,0
+GM-JN-001,Calça Jeans Slim Azul,139.90,38|40|42|44,Azul,./assets/products/jeans-slim-azul.webp,/produto/calca-jeans-slim-azul,0
+GM-JG-001,Calça Jogger Moletom Cinza,119.90,P|M|G,Cinza,./assets/products/jogger-cinza.webp,/produto/calca-jogger-moletom-cinza,0
+GM-JQ-001,Jaqueta Corta-Vento Preta,199.90,P|M|G|GG,Preta,./assets/products/corta-vento-preta.webp,/produto/jaqueta-corta-vento-preta,1
+GM-BR-001,Bermuda Sarja Caramelo,99.90,38|40|42|44,Caramelo,./assets/products/bermuda-sarja-caramelo.webp,/produto/bermuda-sarja-caramelo,0
+GM-ML-001,Moletom Hoodie Verde,149.90,P|M|G|GG,Verde,./assets/products/hoodie-verde.webp,/produto/moletom-hoodie-verde,1
+GM-AC-002,Cinto de Couro Marrom,69.90,90|100|110,Marrom,./assets/products/cinto-couro-marrom.webp,/produto/cinto-couro-marrom,0

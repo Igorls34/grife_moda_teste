@@ -162,22 +162,21 @@ function logEvent(name, data) {
 });
 
 // ============================
-// Render de produtos
+// Render de produtos (só 8 produtos)
 // ============================
-(function renderProducts() {
+(function renderProductsHome() {
   const grid = document.getElementById("product-grid");
   if (!grid) return;
+  const list = products.slice(0, 8); // <= só os 8 primeiros
 
-  const fragment = document.createDocumentFragment();
-
-  products.forEach((p) => {
+  const frag = document.createDocumentFragment();
+  list.forEach((p) => {
     const card = document.createElement("article");
     card.className = "card";
-
     card.innerHTML = `
       <img src="${p.image}" alt="${p.name}" loading="lazy" />
       <div class="card-body">
-        ${p.highlight ? '<span class="badge">Retire hoje</span>' : ""}
+        ${p.highlight ? '<span class="badge">Destaque</span>' : ""}
         <h3 class="title">${p.name}</h3>
         <div class="price">${fmtBRL(p.price)}</div>
         <div class="muted">Tamanhos: ${p.sizes.join(", ")}</div>
@@ -187,24 +186,20 @@ function logEvent(name, data) {
         </div>
       </div>
     `;
-
-    // bind
     card.querySelector(".js-buy").addEventListener("click", () => {
       const payload = {
         nome: p.name,
         cor: p.color || "-",
         tamanho: p.sizes?.[0] || "-",
         preco: p.price,
-        url: BUSINESS.baseUrl + p.url
+        url: `${BUSINESS.baseUrl}/produto.html?sku=${p.sku}`
       };
-      logEvent("cta_whatsapp_clicked", { sku: p.sku, ...payload });
-      openWhats(payload);
+      console.log("cta_whatsapp_clicked", { sku: p.sku, ...payload });
+      window.open(whatsappHref(payload), "_blank", "noopener");
     });
-
-    fragment.appendChild(card);
+    frag.appendChild(card);
   });
-
-  grid.appendChild(fragment);
+  grid.appendChild(frag);
 })();
 
 // ============================
@@ -235,3 +230,13 @@ function logEvent(name, data) {
 })();
 
 window.PRODUCTS = products;
+
+function withUtm(url) {
+  const sep = url.includes("?") ? "&" : "?";
+  return `${url}${sep}utm_source=site&utm_medium=whatsapp&utm_campaign=produto`;
+}
+
+function whatsappHref({ nome, cor, tamanho, preco, url }) {
+  const msg = `Oi Emerson! Quero o produto [${nome}] (${cor} / ${tamanho}). Valor: ${fmtBRL(preco)}. Link: ${withUtm(url)}`;
+  return `https://wa.me/${BUSINESS.wppNumber}?text=${encodeURIComponent(msg)}`;
+}
