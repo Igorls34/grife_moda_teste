@@ -3,7 +3,7 @@
 // ============================
 const BUSINESS = {
   wppNumber: "5524998236007",
-  baseUrl: "https://example.com", // troque quando publicar
+  baseUrl: "https://grife-moda-teste.vercel.app", // <— troquei
   utm: "?utm_source=site&utm_medium=whatsapp&utm_campaign=produto",
 };
 
@@ -182,7 +182,7 @@ function logEvent(name, data) {
         <div class="price">${fmtBRL(p.price)}</div>
         <div class="muted">Tamanhos: ${p.sizes.join(", ")}</div>
         <div class="cta-row" style="margin-top:10px">
-          <a class="btn" href="#contato">Detalhes</a>
+          <a class="btn" href="./produto.html?sku=${p.sku}">Detalhes</a>
           <button class="btn btn-accent js-buy" type="button">Comprar no WhatsApp</button>
         </div>
       </div>
@@ -233,3 +233,5 @@ function logEvent(name, data) {
   }
   tick();
 })();
+
+window.PRODUCTS = products;

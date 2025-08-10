@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coleções — Grife Moda</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./index.html"><img src="./assets/logo.svg" width="32" height="32" alt=""> <span>Grife Moda</span></a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+        <ul id="menu" class="menu">
+          <li><a href="./index.html#home">Início</a></li>
+          <li><a href="./colecoes.html" aria-current="page">Coleções</a></li>
+          <li><a href="./index.html#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="./index.html#produtos">Ver novidades</a>
+        <button class="btn btn-accent" id="cta-wpp-top" type="button">Comprar no WhatsApp</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding:24px 16px">
+    <h1>Coleções</h1>
+    <p class="muted">Explore por tipo de peça.</p>
+
+    <div class="cta-row" id="filters" style="margin:12px 0">
+      <!-- filtros gerados por JS -->
+    </div>
+
+    <div id="grid-colecoes" class="grid" aria-live="polite"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© Grife Moda — Volta Redonda/RJ</p>
+    </div>
+  </footer>
+
+  <script src="./js/main.js"></script>
+  <script>
+    // Usa window.PRODUCTS definido no main.js
+    const CATS = ["Todos","Camisetas","Camisas","Calças","Bermudas","Moletons","Jaquetas","Acessórios"];
+
+    const grid = document.getElementById("grid-colecoes");
+    const filters = document.getElementById("filters");
+
+    function getCategory(p){
+      const n = p.name.toLowerCase();
+      if (n.includes("camiseta")) return "Camisetas";
+      if (n.includes("camisa"))   return "Camisas";
+      if (n.includes("moletom"))  return "Moletons";
+      if (n.includes("jaqueta"))  return "Jaquetas";
+      if (n.includes("bermuda"))  return "Bermudas";
+      if (n.includes("calça") || n.includes("jogger")) return "Calças";
+      return "Acessórios";
+    }
+
+    function render(cat="Todos"){
+      grid.innerHTML = "";
+      window.PRODUCTS
+        .filter(p => cat==="Todos" ? true : getCategory(p)===cat)
+        .forEach(p => {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${p.image}" alt="${p.name}" loading="lazy">
+            <div class="card-body">
+              ${p.highlight ? '<span class="badge">Destaque</span>' : ""}
+              <h3 class="title">${p.name}</h3>
+              <div class="price">${fmtBRL(p.price)}</div>
+              <div class="muted">Tamanhos: ${p.sizes.join(", ")}</div>
+              <div class="cta-row" style="margin-top:10px">
+                <a class="btn" href="./produto.html?sku=${p.sku}">Detalhes</a>
+                <button class="btn btn-accent" type="button"
+                  onclick='openWhats({nome:"${p.name}",cor:"${p.color||"-"}",tamanho:"${p.sizes[0]||"-"}",preco:${p.price},url:"${BUSINESS.baseUrl}/produto.html?sku=${p.sku}"})'>
+                  Comprar no WhatsApp
+                </button>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+    }
+
+    // filtros
+    CATS.forEach(c => {
+      const b = document.createElement("button");
+      b.className = "btn";
+      b.textContent = c;
+      b.addEventListener("click", () => render(c));
+      filters.appendChild(b);
+    });
+
+    render("Todos");
+  </script>
+</body>
+</html>
