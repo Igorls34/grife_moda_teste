@@ -310,3 +310,84 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--ring);outline-offse
 /* Campos da landing com aspecto de input */
 .field { margin: 10px 0 }
 .field .btn { width: 100%; text-align: left }
+
+/* ===== Coachmarks (tour interativo) — MOBILE + ANTI-CORTE ===== */
+.gm-tour-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.55);
+  z-index: 9990; pointer-events: none; opacity: 0; transition: opacity .2s ease;
+}
+.gm-tour-overlay.show { opacity: 1; }
+
+.gm-spotlight {
+  position: absolute; z-index: 9992; border-radius: 14px;
+  box-shadow: 0 0 0 3px rgba(212,175,55,.55), 0 10px 22px rgba(0,0,0,.45);
+  background: transparent; pointer-events: none;
+}
+
+.gm-tour-card {
+  position: absolute; z-index: 9993;
+  max-width: min(360px, 96vw);
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.45);
+  padding: 12px; pointer-events: auto;
+
+  /* anti-corte mobile */
+  max-height: calc(70vh - 20px);
+  overflow: auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.gm-tour-card h4 { margin: 0 0 6px; font-size: 1rem; }
+.gm-tour-card p  { margin: 0 10px 10px 0; color: var(--muted); font-size: .95rem; }
+
+.gm-tour-actions{ display:flex; gap:8px; justify-content:space-between; align-items:center; flex-wrap:wrap }
+.gm-tour-left   { display:flex; gap:8px }
+.gm-tour-right  { display:flex; gap:8px }
+.gm-btn {
+  padding: 10px 14px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--surface);
+  color: var(--text); cursor: pointer; font-size:.95rem;
+}
+.gm-btn-primary{
+  background: linear-gradient(180deg,#F1D66B,#D4AF37 60%,#B8860B);
+  color:#111; border-color:#AC8F2C; font-weight:700;
+}
+.gm-btn-ghost { background: transparent; }
+
+.gm-tour-arrow {
+  position: absolute; width: 10px; height: 10px;
+  transform: rotate(45deg); background: var(--surface);
+  border-left: 1px solid var(--line); border-top: 1px solid var(--line);
+  z-index: 9994;
+}
+
+/* posições relativas ao alvo */
+.gm-pos-top    { transform: translate(-50%, calc(-100% - 14px)); }
+.gm-pos-right  { transform: translate(14px, -50%); }
+.gm-pos-bottom { transform: translate(-50%, 14px); }
+.gm-pos-left   { transform: translate(calc(-100% - 14px), -50%); }
+
+.gm-arrow-top    { bottom:-6px; left:50%; transform: translateX(-50%) rotate(45deg); }
+.gm-arrow-right  { left:-6px; top:50%; transform: translateY(-50%) rotate(45deg); }
+.gm-arrow-bottom { top:-6px; left:50%; transform: translateX(-50%) rotate(45deg); }
+.gm-arrow-left   { right:-6px; top:50%; transform: translateY(-50%) rotate(45deg); }
+
+/* ===== Mobile tweaks ===== */
+@media (max-width: 480px){
+  .gm-tour-card { max-width: 96vw; max-height: calc(68vh - 20px); }
+  .gm-btn { padding: 10px 12px; font-size:.95rem; }
+}
+
+/* Fallback “fixo no rodapé” (quando não cabe perto do alvo) */
+.gm-fixed-bottom {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  top: auto !important;
+  transform: translateX(-50%) !important;
+  width: min(560px, 96vw);
+  max-height: min(58vh, 420px);
+  overflow: auto;
+}
+.gm-fixed-bottom + .gm-tour-arrow { display:none !important; } /* sem seta nesse modo */

@@ -123,7 +123,7 @@
         `🔗 Origem: ${landingUrl}`
       ].filter(Boolean);
 
-      const href = `https://wa.me/${BUSINESS.wppNumber}?text=${encodeURIComponent(linhas.join("\\n"))}`;
+      const href = `https://wa.me/${BUSINESS.wppNumber}?text=${encodeURIComponent(linhas.join("\n"))}`;
       fb.textContent = "Abrindo o WhatsApp…";
       window.open(href, "_blank", "noopener");
     });

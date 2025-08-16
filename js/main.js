@@ -54,80 +54,101 @@ function withUtm(url, { campaign = "produto", content } = {}) {
 
 // ============================
 // Templates de mensagem por intenção (botão origem)
+// intent: 'product_card' | 'generic_top' | 'generic_hero' | 'generic_footer' | 'generic_default'
 // ============================
-// intent possíveis: 'product_card', 'generic_top', 'generic_hero', 'generic_footer', 'generic_default'
 function buildWhatsMessage({ intent = "generic_default", nome, cor, tamanho, preco, url, sku, promo }) {
   const precoTxt = (typeof preco === "number" && Number.isFinite(preco)) ? fmtBRL(preco) : "Sob consulta";
   const promoTxt = promo ? `\n🎁 *Promoção:* ${promo}` : "";
 
-  // Mensagens genéricas (sem produto)
-  const generic = {
-    generic_top: [
+  // ---- Mensagens genéricas (sem produto) ----
+  if (intent === "generic_top") {
+    return [
       "Olá, Emerson! Vim pelo topo do site e preciso de atendimento 👋",
       "",
       "Quero tirar uma dúvida rápida sobre os produtos e tamanhos.",
       "",
-      `🔗 *Site:* ${url}`,
-    ],
-    generic_hero: [
+      `🔗 *Site:* ${url}`
+    ].join("\n");
+  }
+
+  if (intent === "generic_hero") {
+    return [
       "Oi, Emerson! Acabei de ver as novidades na vitrine 🛍️",
       "",
       "Pode me indicar os destaques e melhores promoções?",
       "",
-      `🔗 *Vitrine:* ${url}`,
-    ],
-    generic_footer: [
+      `🔗 *Vitrine:* ${url}`
+    ].join("\n");
+  }
+
+  if (intent === "generic_footer") {
+    return [
       "Olá, Emerson! Quero finalizar uma compra ✅",
       "",
       "Pode me ajudar com formas de pagamento e prazo de entrega?",
       "",
-      `🔗 *Página:* ${url}`,
-    ],
-    generic_default: [
-      "Olá, Emerson! Preciso de atendimento da Grife Moda 🙂",
-      "",
-      "Tenho dúvidas sobre produtos e tamanhos.",
-      "",
-      `🔗 *Site:* ${url}`,
-    ],
-  };
-
-  // Se não é intent genérica, monta mensagem de produto
-  if (intent === "product_card") {
-    const linhas = [
-      "Olá, Emerson! Gostei deste produto da *Grife Moda* 👇",
-      "",
-      `👕 *${nome}*`,
-      sku ? `🆔 SKU: ${sku}` : null,
-      `🎨 Cor: ${cor}`,
-      `📏 Tamanho: ${tamanho}`,
-      `💰 Valor: ${precoTxt}${promoTxt}`,
-      "",
-      `🔗 *Detalhes:* ${url}`,
-      "",
-      "Pode confirmar a disponibilidade, por favor? 🙏",
-    ].filter(Boolean);
-    return linhas.join("\n");
+      `🔗 *Página:* ${url}`
+    ].join("\n");
   }
 
-  // Intent genérica
-  const linhas = generic[intent] || generic.generic_default;
-  return linhas.join("\n");
-}
+  // ---- Mensagem de produto (card) ----
+  if (intent === "product_card") {
+    return [
+      "Olá, Emerson! Quero este produto da *Grife Moda* 👇",
+      "",
+      `🧾 *Produto:* ${nome}${sku ? ` (${sku})` : ""}`,
+      `🎨 *Cor:* ${cor || "-"}`,
+      `📏 *Tamanho:* ${tamanho || "-"}`,
+      `💰 *Preço:* ${precoTxt}${promoTxt}`,
+      "",
+      `🔗 *Link:* ${url}`,
+      "Pode confirmar disponibilidade e entrega?"
+    ].join("\n");
+  }
 
+  // ---- Fallback (genérico padrão) ----
+  return [
+    "Olá, Emerson! Preciso de atendimento da Grife Moda 🙂",
+    "",
+    "Tenho dúvidas sobre produtos e tamanhos.",
+    "",
+    `🔗 *Site:* ${url}`
+  ].join("\n");
+}
 // Href pronto para abrir o WhatsApp
+// Monta link universal (funciona em mobile e desktop)
 function whatsappHref({ nome, cor, tamanho, preco, url, campaign, content, sku, promo, intent }) {
-  const link = withUtm(url, { campaign, content });
-  const msg = buildWhatsMessage({ intent, nome, cor, tamanho, preco, url: link, sku, promo });
-  return `https://wa.me/${BUSINESS.wppNumber}?text=${encodeURIComponent(msg)}`;
+  // Sanitiza/garante valores
+  const safeUrl = url || location.href;
+  const linkComUtm = withUtm(safeUrl, { campaign, content });
+
+  const msg = buildWhatsMessage({
+    intent,
+    nome,
+    cor,
+    tamanho,
+    preco,
+    url: linkComUtm,
+    sku,
+    promo
+  });
+
+  const phone = String(BUSINESS.wppNumber || "").replace(/\D/g, ""); // só dígitos
+  const text  = encodeURIComponent(msg);
+
+  // API universal redireciona pro app no mobile e pro Web no desktop
+  return `https://api.whatsapp.com/send?phone=${phone}&text=${text}`;
 }
 
+// Abre o WhatsApp com fallback se o pop-up for bloqueado
 function openWhats(payload) {
-  window.open(whatsappHref(payload), "_blank", "noopener");
-}
+  const href = whatsappHref(payload);
+  const win = window.open(href, "_blank", "noopener");
 
-function logEvent(name, data) {
-  console.log(name, data); // plugue GA4 aqui depois
+  // Se o navegador bloquear pop-up, faz fallback no mesmo tab
+  if (!win || win.closed || typeof win.closed === "undefined") {
+    window.location.href = href;
+  }
 }
 
 // ============================
@@ -273,116 +294,249 @@ function cardImgHTML(p) {
 window.PRODUCTS = products;
 
 // ============================
-// Tutorial leve (beacons) + modal opcional via FAB
+// Tutorial interativo (coachmarks) — MOBILE + ANTI-CORTE
 // ============================
-(function tourSetup() {
-  const KEY = "gm_seen_tour_v2"; // nova chave (v2)
-  const btnFab = document.getElementById("help-fab"); // botão "?" já existe no index.html
-  const modal   = document.getElementById("tour-modal"); // modal continua disponível
+(function tourInteractive(){
+  const KEY = "gm_seen_tour_v5";
+  const btnFab = document.getElementById("help-fab");
+  const $ = (sel) => document.querySelector(sel);
 
-  // Beacons: quais alvos e textos
-  const targets = [
-    { sel: "#cta-wpp-hero",    text: "Fale com a gente no WhatsApp",    place: "bottom" },
-    { sel: '.site-nav .menu a[href="./colecoes.html"]', text: "Veja todas as categorias", place: "bottom" },
-    { sel: "#product-grid",     text: "Role e veja as novidades",       place: "top" }
-  ];
+  // Passos por página
+  const stepsByPage = {
+    index: [
+      { sel: "#cta-wpp-hero",    place: "bottom", title: "Fale no WhatsApp", text: "Clique aqui pra falar direto com o Emerson. Mensagem já vai prontinha." },
+      { sel: '.site-nav .menu a[href="./colecoes.html"]', place: "bottom", title: "Coleções", text: "Navegue por categorias: camisetas, bermudas, polos e mais." },
+      { sel: "#product-grid", place: "top", title: "Produtos em destaque", text: "Role pra ver as novidades. No card, use “Comprar no WhatsApp”." },
+      { sel: 'a[href="./lead.html"]', place: "bottom", title: "Quero desconto", text: "Deixe seu contato e receba ofertas e disponibilidade no WhatsApp." }
+    ],
+    colecoes: [
+      { sel: "#filters", place: "bottom", title: "Filtros", text: "Filtre por categoria. O estado ativo fica realçado em dourado." },
+      { sel: "#grid-colecoes", place: "top", title: "Lista da coleção", text: "Abra os detalhes ou compre direto no WhatsApp." }
+    ],
+    produto: [
+      { sel: ".title, h1", place: "bottom", title: "Detalhes do produto", text: "Nome, preço, tamanhos e imagem maior aqui." },
+      { sel: ".js-buy, #cta-wpp-hero, #cta-wpp-top", place: "top", title: "Comprar no WhatsApp", text: "Confirmamos disponibilidade e combinamos entrega/pagamento." }
+    ],
+    lead: [
+      { sel: "#lead-form", place: "top", title: "Seu desconto", text: "Preencha rapidinho. A mensagem vai pro WhatsApp do Emerson." }
+    ]
+  };
 
-  // cria um beacon (tooltip + pulso) preso a um elemento
-  function showBeacon(el, { text, place="top" }){
-    const rect = el.getBoundingClientRect();
-    const root = document.body;
+  // Página atual
+  const path = location.pathname;
+  const pageKey =
+    /colecoes\.html$/.test(path) ? "colecoes" :
+    /produto\.html$/.test(path)  ? "produto"  :
+    /lead\.html$/.test(path)     ? "lead"     : "index";
 
-    const b = document.createElement("div");
-    b.className = `beacon ${place}`;
-    b.textContent = text;
+  // DOM base
+  const overlay   = document.createElement("div"); overlay.className = "gm-tour-overlay";
+  const spotlight = document.createElement("div"); spotlight.className = "gm-spotlight";
+  const card      = document.createElement("div"); card.className = "gm-tour-card";
+  const arrow     = document.createElement("div"); arrow.className = "gm-tour-arrow";
 
-    const pulse = document.createElement("div");
-    pulse.className = "beacon-pulse";
+  const h4 = document.createElement("h4");
+  const p  = document.createElement("p");
+  const actions = document.createElement("div"); actions.className = "gm-tour-actions";
+  const left  = document.createElement("div"); left.className = "gm-tour-left";
+  const right = document.createElement("div"); right.className = "gm-tour-right";
 
-    // posiciona aproximadamente (viewport-based)
-    const x = rect.left + (rect.width/2) + window.scrollX;
-    const y = rect.top  + (rect.height/2) + window.scrollY;
+  const btnPrev = document.createElement("button"); btnPrev.className = "gm-btn gm-btn-ghost";   btnPrev.textContent = "Voltar";
+  const btnSkip = document.createElement("button"); btnSkip.className = "gm-btn gm-btn-ghost";   btnSkip.textContent = "Pular";
+  const btnNext = document.createElement("button"); btnNext.className = "gm-btn gm-btn-primary"; btnNext.textContent = "Próximo";
 
-    b.style.left = x + "px";
-    b.style.top  = y + "px";
+  left.append(btnPrev, btnSkip);
+  right.append(btnNext);
+  actions.append(left, right);
+  card.append(h4, p, actions);
 
-    // posição do pulso (no “ponto” do alvo)
-    pulse.style.left = (x - 5) + "px";
-    pulse.style.top  = (y - 5) + "px";
+  // Estado
+  let steps = (stepsByPage[pageKey] || []).filter(s => $(s.sel));
+  let idx = 0, running = false;
+  let lastTarget = null, lastPlace = "bottom";
 
-    root.appendChild(pulse);
-    root.appendChild(b);
+  // Helpers de viewport (usa visualViewport quando disponível)
+  function getViewport(){
+    const vv = window.visualViewport;
+    if (vv) return { x: vv.pageLeft, y: vv.pageTop, w: vv.width, h: vv.height };
+    return {
+      x: window.scrollX, y: window.scrollY,
+      w: Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0),
+      h: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+    };
+  }
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-    // some depois de 6s
-    setTimeout(() => {
-      b.remove(); pulse.remove();
-    }, 6000);
+  function scrollIntoViewIfNeeded(el){
+    const r = el.getBoundingClientRect();
+    const margin = 120;
+    const { h } = getViewport();
+    if (r.top < margin || r.bottom > (h - margin)) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   }
 
-  function runBeacons(){
-    targets.forEach(t => {
-      const el = document.querySelector(t.sel);
-      if (el) showBeacon(el, { text: t.text, place: t.place });
-    });
+  // Escolhe melhor lado; se não couber, “fixed-bottom”
+  function chooseBestPlace(target, preferred){
+    const { w, h } = getViewport();
+    const rect = target.getBoundingClientRect();
+    const topSpace    = rect.top;
+    const bottomSpace = h - rect.bottom;
+    const leftSpace   = rect.left;
+    const rightSpace  = w - rect.right;
+
+    const estH = Math.min(220, h * 0.6);
+    const estW = Math.min(360, w * 0.96);
+    const order = [preferred, "bottom","top","right","left"].filter((v,i,a)=>a.indexOf(v)===i);
+
+    for (const place of order){
+      if (place === "bottom" && bottomSpace >= estH) return "bottom";
+      if (place === "top"    && topSpace    >= estH) return "top";
+      if (place === "right"  && rightSpace  >= Math.min(estW, 280)) return "right";
+      if (place === "left"   && leftSpace   >= Math.min(estW, 280)) return "left";
+    }
+    return "fixed-bottom";
   }
 
-  // FAB abre o modal completo (pra quem quiser ver)
-  btnFab?.addEventListener("click", () => {
-    if (!modal) return;
-    modal.hidden = false;
-    document.body.style.overflow = "hidden";
-    document.getElementById("tour-title")?.focus?.();
-    logEvent?.("tour_open", { source: "fab" });
-  });
+  // Posiciona spotlight e card; “encaixa” o card dentro da viewport
+  function placeAround(target, place){
+    const vp = getViewport();
+    const r  = target.getBoundingClientRect();
 
-  // Controles do modal (mantidos do seu código)
-  if (modal){
-    const btnClose = document.getElementById("tour-close");
-    const btnPrev  = document.getElementById("tour-prev");
-    const btnNext  = document.getElementById("tour-next");
-    const btnDone  = document.getElementById("tour-done");
-    const chkAgain = document.getElementById("tour-show-again");
-    const steps    = Array.from(modal.querySelectorAll(".tour-step"));
-    let idx = 0;
+    // Spotlight no alvo
+    spotlight.style.left   = (window.scrollX + r.left - 8) + "px";
+    spotlight.style.top    = (window.scrollY + r.top  - 8) + "px";
+    spotlight.style.width  = (r.width  + 16) + "px";
+    spotlight.style.height = (r.height + 16) + "px";
 
-    function setOpen(open){
-      modal.hidden = !open;
-      document.body.style.overflow = open ? "hidden" : "";
-    }
-    function render(){
-      steps.forEach((el, i) => el.hidden = i !== idx);
-      const last = idx === steps.length - 1;
-      btnPrev.disabled = idx === 0;
-      btnNext.hidden = last;
-      btnDone.hidden = !last;
-    }
-    function rememberSeen(){
-      if (chkAgain && chkAgain.checked) {
-        localStorage.removeItem(KEY);
-      } else {
-        localStorage.setItem(KEY, "1");
-      }
-    }
-    function closeTour(action="close"){
-      setOpen(false);
-      rememberSeen();
-      logEvent?.("tour_close", { action, show_again: !!(chkAgain && chkAgain.checked) });
+    // Reset
+    card.classList.remove("gm-pos-top","gm-pos-right","gm-pos-bottom","gm-pos-left","gm-fixed-bottom");
+    arrow.className = "gm-tour-arrow";
+
+    if (place === "fixed-bottom"){
+      card.classList.add("gm-fixed-bottom");
+      lastTarget = target; lastPlace = place;
+      return;
     }
 
-    btnPrev?.addEventListener("click", () => { if (idx > 0) { idx--; render(); } });
-    btnNext?.addEventListener("click", () => { if (idx < steps.length - 1) { idx++; render(); } else { closeTour("next_end"); } });
-    btnDone?.addEventListener("click", () => closeTour("done"));
-    btnClose?.addEventListener("click", () => closeTour("x"));
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeTour("esc"); });
-    modal.addEventListener("click", (e) => { if (e.target === modal) closeTour("backdrop"); });
+    // Ponto base (centro do alvo)
+    const cx = window.scrollX + r.left + r.width / 2;
+    const cy = window.scrollY + r.top  + r.height / 2;
 
-    render();
+    card.style.left = cx + "px";
+    card.style.top  = cy + "px";
+    card.classList.add(`gm-pos-${place}`);
+
+    // Injeta e mede
+    if (!document.body.contains(card)) document.body.appendChild(card);
+    const cr = card.getBoundingClientRect();
+    const pad = 8;
+
+    // Alvo “ideal” por lado
+    let left = cx, top = cy;
+    if (place === "bottom") top = window.scrollY + r.bottom + 14;
+    if (place === "top")    top = window.scrollY + r.top    - 14;
+    if (place === "right")  left = window.scrollX + r.right + 14;
+    if (place === "left")   left = window.scrollX + r.left  - 14;
+
+    // Encaixa dentro da viewport visível
+    const minLeft = vp.x + pad + cr.width  * 0.5;
+    const maxLeft = vp.x + vp.w - pad - cr.width * 0.5;
+    const minTop  = vp.y + pad + cr.height * 0.5;
+    const maxTop  = vp.y + vp.h - pad - cr.height * 0.5;
+
+    left = clamp(left, minLeft, maxLeft);
+    top  = clamp(top,  minTop,  maxTop);
+
+    card.style.left = left + "px";
+    card.style.top  = top  + "px";
+
+    // Seta
+    arrow.style.left = (window.scrollX + r.left + r.width / 2) + "px";
+    arrow.style.top  = (window.scrollY + r.top  + r.height / 2) + "px";
+    arrow.classList.add(
+      place === "top"    ? "gm-arrow-top"    :
+      place === "right"  ? "gm-arrow-right"  :
+      place === "bottom" ? "gm-arrow-bottom" : "gm-arrow-left"
+    );
+
+    lastTarget = target; lastPlace = place;
   }
 
-  // Primeira visita: só mostra os beacons (sem travar com modal)
+  function reflow(){
+    if (!running || !lastTarget) return;
+    const place = chooseBestPlace(lastTarget, lastPlace);
+    placeAround(lastTarget, place);
+  }
+
+  function showStep(i){
+    const step = steps[i];
+    if (!step) { end(); return; }
+    const target = $(step.sel);
+    if (!target) { next(); return; }
+
+    scrollIntoViewIfNeeded(target);
+
+    h4.textContent = step.title || "Dica";
+    p.textContent  = step.text  || "";
+
+    if (!document.body.contains(overlay))  document.body.appendChild(overlay);
+    if (!document.body.contains(spotlight))document.body.appendChild(spotlight);
+    if (!document.body.contains(card))     document.body.appendChild(card);
+    if (!document.body.contains(arrow))    document.body.appendChild(arrow);
+
+    requestAnimationFrame(()=> overlay.classList.add("show"));
+
+    const chosen = chooseBestPlace(target, step.place || "bottom");
+    placeAround(target, chosen);
+  }
+
+  const next = () => { idx = Math.min(idx + 1, steps.length); showStep(idx); };
+  const prev = () => { idx = Math.max(idx - 1, 0);           showStep(idx); };
+
+  function end(action="end"){
+    overlay.remove(); spotlight.remove(); card.remove(); arrow.remove();
+    running = false; localStorage.setItem(KEY, "1");
+    try { logEvent?.("tour_finish", { page: pageKey, action }); } catch(e){}
+    overlay.style.pointerEvents = "none";
+  }
+
+  // Botões
+  btnNext.addEventListener("click", () => (idx >= steps.length - 1) ? end("done") : next());
+  btnPrev.addEventListener("click", () => { if (idx > 0) prev(); });
+  btnSkip.addEventListener("click", () => end("skip"));
+
+  // UX mobile: tocar no fundo avança
+  overlay.addEventListener("click", () => (idx >= steps.length - 1) ? end("tap_end") : next());
+
+  // Reposicionamento reativo
+  window.addEventListener("scroll", reflow, { passive: true });
+  window.addEventListener("resize", reflow);
+  window.visualViewport?.addEventListener("resize", reflow);
+  window.visualViewport?.addEventListener("scroll", reflow);
+  window.addEventListener("orientationchange", () => setTimeout(reflow, 250));
+
+  // Start
+  function start(from="fab"){
+    if (!steps.length || running) return;
+    running = true; idx = 0;
+    try { logEvent?.("tour_start", { page: pageKey, from }); } catch(e){}
+    overlay.style.pointerEvents = "auto";
+    showStep(idx);
+  }
+
+  // FAB “?” abre o tour
+  btnFab?.addEventListener("click", () => start("fab"));
+
+  // “toque” inicial discreto (não abre tour)
   const firstVisit = !localStorage.getItem(KEY);
-  if (firstVisit) {
-    setTimeout(runBeacons, 900);
-    localStorage.setItem(KEY, "1");
+  if (firstVisit && pageKey === "index") {
+    const heroBtn = $("#cta-wpp-hero") || $("#cta-wpp-top");
+    if (heroBtn?.animate) {
+      heroBtn.animate(
+        [{ boxShadow: "0 0 0 0 rgba(212,175,55,.55)" }, { boxShadow: "0 0 0 18px rgba(212,175,55,0)" }],
+        { duration: 1300, iterations: 2 }
+      );
+    }
   }
 })();
