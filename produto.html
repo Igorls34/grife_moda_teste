@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Produto — Grife Moda</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./index.html"><img src="./assets/logo.svg" width="32" height="32" alt=""><span>Grife Moda</span></a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+        <ul id="menu" class="menu">
+          <li><a href="./index.html#home">Início</a></li>
+          <li><a href="./colecoes.html">Coleções</a></li>
+          <li><a href="./index.html#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="cta-row">
+        <button class="btn btn-accent" id="cta-wpp-top" type="button">Falar no WhatsApp</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding:24px 16px">
+    <a class="btn" href="./colecoes.html">← Voltar</a>
+    <div id="pbox" style="display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start;margin-top:16px"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><p>© Grife Moda — Volta Redonda/RJ</p></div>
+  </footer>
+
+  <script src="./js/main.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const sku = params.get("sku");
+    const p = (window.PRODUCTS || []).find(x => x.sku === sku);
+
+    const box = document.getElementById("pbox");
+    if(!p){
+      box.innerHTML = "<p>Produto não encontrado.</p>";
+    } else {
+      document.title = `${p.name} — Grife Moda (Volta Redonda/RJ)`;
+      box.innerHTML = `
+        <div>
+          <img src="${p.image}" alt="${p.name}" style="border:1px solid #eee;border-radius:16px;max-height:520px;object-fit:cover;width:100%">
+        </div>
+        <div>
+          <h1 style="margin:0">${p.name}</h1>
+          <p class="muted">SKU: ${p.sku}</p>
+          <div class="price" style="font-size:1.6rem">${fmtBRL(p.price)}</div>
+
+          <div style="margin:16px 0">
+            <label for="sel-tam"><strong>Tamanho:</strong></label><br>
+            <select id="sel-tam" class="btn" style="margin-top:6px">
+              ${p.sizes.map(s => `<option value="${s}">${s}</option>`).join("")}
+            </select>
+          </div>
+
+          <div class="cta-row" style="margin:12px 0">
+            <button class="btn btn-accent" type="button" id="buy-wpp">Comprar no WhatsApp</button>
+          </div>
+
+          <p class="muted">Cor: ${p.color||"-"}</p>
+          <p class="muted">Troca em até 15 dias. Retirada na loja ou entrega com taxa.</p>
+        </div>
+      `;
+
+      document.getElementById("buy-wpp").addEventListener("click", () => {
+        const tamanho = document.getElementById("sel-tam").value || p.sizes[0] || "-";
+        openWhats({
+          nome: p.name,
+          cor: p.color || "-",
+          tamanho,
+          preco: p.price,
+          url: `${BUSINESS.baseUrl}/produto.html?sku=${p.sku}`
+        });
+      });
+    }
+  </script>
+</body>
+</html>

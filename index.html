@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Grife Moda — Água Limpa, Volta Redonda/RJ | Loja Online</title>
+  <meta name="description" content="Loja de roupas em Água Limpa, Volta Redonda/RJ. Novidades semanais, preços e tamanhos claros. Compre pelo WhatsApp. Pix, débito, crédito e dinheiro. Retire na loja ou entrega com taxa. Troca em até 15 dias.">
+  <meta name="theme-color" content="#111" />
+  <link rel="canonical" href="https://grife-moda-teste.vercel.app/">
+
+  <!-- Preload do banner (melhora LCP) -->
+  <link rel="preload" as="image"
+        href="/assets/banners/hero-desktop.webp"
+        imagesrcset="/assets/banners/hero-mobile.webp 720w, /assets/banners/hero-desktop.webp 1920w"
+        imagesizes="100vw">
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Grife Moda — Loja Online">
+  <meta property="og:description" content="Vitrine online + compra no WhatsApp. Retirada na loja ou entrega com taxa.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://grife-moda-teste.vercel.app/assets/banners/hero-desktop.webp">
+  <meta property="og:url" content="https://grife-moda-teste.vercel.app/">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- JSON-LD LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "Grife Moda - Loja Online",
+  "url": "https://grife-moda-teste.vercel.app/",
+  "telephone": "+55 24 99823-6007",
+  "address": [
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "Rua Rio Içá, 47",
+      "addressLocality": "Volta Redonda",
+      "addressRegion": "RJ",
+      "addressCountry": "BR"
+    },
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Visconde do Rio Branco, 337",
+      "addressLocality": "Volta Redonda",
+      "addressRegion": "RJ",
+      "addressCountry": "BR"
+    }
+  ],
+  "areaServed": "Volta Redonda - Água Limpa",
+  "paymentAccepted": "Cash, Credit Card, Debit Card, Pix",
+  "openingHoursSpecification": [
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:30","closes":"18:30"}
+  ]
+}
+</script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./index.html#home" aria-label="Grife Moda — início">
+        <img src="./assets/logo.svg" width="32" height="32" alt="">
+        <span>Grife Moda — Loja Online</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Navegação principal">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+        <ul id="menu" class="menu">
+          <li><a href="#home">Início</a></li>
+          <li><a href="./colecoes.html">Coleções</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#produtos">Ver novidades</a>
+        <button class="btn btn-accent" id="cta-wpp-top" type="button">Comprar no WhatsApp</button>
+      </div>
+    </div>
+  </header>
+
+      <!-- Botão de ajuda flutuante (abre o tour a qualquer momento) -->
+    <button class="help-fab" id="help-fab" aria-label="Ajuda e tutorial">?</button>
+
+    <!-- Modal de tutorial -->
+    <div class="modal-backdrop" id="tour-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tour-title">
+        <header class="modal-head">
+        <h3 id="tour-title">Novo por aqui? 👋</h3>
+        <button class="btn btn-close" id="tour-close" aria-label="Fechar">×</button>
+        </header>
+
+        <div class="modal-body">
+        <!-- Passo 1 -->
+        <article class="tour-step" data-step="1">
+            <h4>1) Ver produtos</h4>
+            <p>Role até <strong>Novidades</strong> ou clique em <strong>Coleções</strong> no topo para ver todas as peças.</p>
+        </article>
+
+        <!-- Passo 2 -->
+        <article class="tour-step" data-step="2" hidden>
+            <h4>2) Comprar no WhatsApp</h4>
+            <p>Em cada produto, toque em <strong>Comprar no WhatsApp</strong>. A mensagem já vai com o nome, tamanho e link.</p>
+        </article>
+
+        <!-- Passo 3 -->
+        <article class="tour-step" data-step="3" hidden>
+            <h4>3) Promo & retirada</h4>
+            <p>Confira a <strong>Promo relâmpago</strong> no topo. Pode <strong>retirar na loja</strong> ou pedir <strong>entrega com taxa</strong>. Troca em até <strong>15 dias</strong>.</p>
+        </article>
+        </div>
+
+        <footer class="modal-foot">
+        <div class="left">
+            <label class="dontshow">
+            <input type="checkbox" id="tour-show-again" />
+            Mostrar novamente da próxima vez
+            </label>
+        </div>
+        <div class="right">
+            <button class="btn" id="tour-prev" disabled>← Anterior</button>
+            <button class="btn btn-primary" id="tour-next">Próximo →</button>
+            <button class="btn btn-accent" id="tour-done" hidden>Entendi</button>
+        </div>
+        </footer>
+    </div>
+    </div>
+
+  <main id="conteudo">
+    <!-- Hero / Destaque -->
+    <section id="home" class="hero hero-banner" aria-label="Lançamento: até 20% off, só nesta semana">
+    <div class="container hero-inner">
+        <div>
+        <h1>Moda que gira estoque — não poeira.</h1>
+        <p class="muted">PIX, retirada na loja e entrega com taxa simbólica ou via Correios. Troca em até 7 dias (produto com etiqueta e sem uso).</p>
+        <div class="cta-row">
+            <a class="btn" href="#produtos">Ver novidades</a>
+            <button class="btn btn-accent" id="cta-wpp-hero" type="button">Falar no WhatsApp</button>
+        </div>
+        </div>
+    </div>
+    </section>
+
+
+    <!-- Promo com contador -->
+    <section class="promo">
+      <div class="container promo-inner">
+        <div>
+          <strong class="badge">Lançamento</strong>
+          <h2>Oferta 48h de abertura</h2>
+          <p>Use o cupom <strong>SITE10</strong> e garanta 10% OFF nos itens selecionados.</p>
+        </div>
+        <div class="countdown" aria-live="polite">
+          <div><span id="cd-h">48</span><small>h</small></div>
+          <div><span id="cd-m">00</span><small>min</small></div>
+          <div><span id="cd-s">00</span><small>s</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Produtos -->
+    <section id="produtos" class="produtos">
+      <div class="container">
+        <h2>Novidades</h2>
+        <div id="product-grid" class="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="contato">
+      <div class="container">
+        <h2>Contato</h2>
+        <ul class="contact-list">
+            <li><strong>WhatsApp:</strong> <a href="tel:+5524998236007">(+55 24) 99823-6007</a></li>
+
+            <li><strong>Endereço 1:</strong> Rua Rio Içá, 47 — Água Limpa, Volta Redonda/RJ —
+                <a href="https://www.google.com/maps/search/?api=1&query=Rua+Rio+I%C3%A7%C3%A1,+47,+Volta+Redonda,+RJ" target="_blank" rel="noopener">Ver no mapa</a>
+            </li>
+
+            <li><strong>Endereço 2:</strong> Av. Visconde do Rio Branco, 337 — Volta Redonda/RJ —
+                <a href="https://www.google.com/maps/search/?api=1&query=Av.+Visconde+do+Rio+Branco,+337,+Volta+Redonda,+RJ" target="_blank" rel="noopener">Ver no mapa</a>
+            </li>
+
+            <li><strong>Horários:</strong> 09:30–18:30, <strong>segunda a sábado</strong></li>
+            <li><strong>Entrega:</strong> taxa simbólica ou via Correios</li>
+            <li><strong>Troca:</strong> até 7 dias, produto com etiqueta e sem uso</li>
+        </ul>
+        <div class="cta-row">
+            <button class="btn btn-accent" id="cta-wpp-bottom" type="button">Comprar no WhatsApp</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© Grife Moda — Volta Redonda/RJ</p>
+      <p class="muted">Preços e disponibilidade sujeitos a alteração sem aviso prévio.</p>
+      <div class="badges">
+        <span class="badge">PIX</span>
+        <span class="badge">Troca 7 dias</span>
+        <span class="badge">Retire hoje</span>
+      </div>
+    </div>
+  </footer>
+
+  <noscript>
+    <div class="noscript">Habilite o JavaScript para melhor experiência (produtos e contador).</div>
+  </noscript>
+
+  <script src="./js/main.js" defer></script>
+</body>
+</html>

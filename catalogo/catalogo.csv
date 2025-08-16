@@ -1,0 +1,11 @@
+sku,name,price,sizes,color,image,url,highlight
+GM-TS-001,Camiseta Básica Preta,79.90,P|M|G,Preta,./assets/products/camiseta-preta.webp,/produto/camiseta-basica-preta,1
+GM-TS-002,Camiseta Oversized Off-White,89.90,M|G|GG,Off-White,./assets/products/camiseta-offwhite.webp,/produto/camiseta-oversized-offwhite,1
+GM-TS-003,Camiseta Estonada Azul,84.90,P|M|G|GG,Azul,./assets/products/camiseta-azul-estonada.webp,/produto/camiseta-estonada-azul,0
+GM-CM-001,Camisa Xadrez Vermelha,129.90,P|M|G|GG,Vermelha,./assets/products/camisa-xadrez-vermelha.webp,/produto/camisa-xadrez-vermelha,0
+GM-JN-001,Calça Jeans Slim Azul,139.90,38|40|42|44,Azul,./assets/products/jeans-slim-azul.webp,/produto/calca-jeans-slim-azul,0
+GM-JG-001,Calça Jogger Moletom Cinza,119.90,P|M|G,Cinza,./assets/products/jogger-cinza.webp,/produto/calca-jogger-moletom-cinza,0
+GM-JQ-001,Jaqueta Corta-Vento Preta,199.90,P|M|G|GG,Preta,./assets/products/corta-vento-preta.webp,/produto/jaqueta-corta-vento-preta,1
+GM-BR-001,Bermuda Sarja Caramelo,99.90,38|40|42|44,Caramelo,./assets/products/bermuda-sarja-caramelo.webp,/produto/bermuda-sarja-caramelo,0
+GM-ML-001,Moletom Hoodie Verde,149.90,P|M|G|GG,Verde,./assets/products/hoodie-verde.webp,/produto/moletom-hoodie-verde,1
+GM-AC-002,Cinto de Couro Marrom,69.90,90|100|110,Marrom,./assets/products/cinto-couro-marrom.webp,/produto/cinto-couro-marrom,0
