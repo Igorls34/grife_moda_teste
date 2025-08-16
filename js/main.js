@@ -10,30 +10,176 @@ const BUSINESS = {
   baseUrl: "https://grife-moda-teste.vercel.app",
 };
 
-// ============================
-// Produtos (auto a partir das fotos IMAGEM (1..23).webp)
-// Dica pró: eventualmente renomeie os arquivos para "imagem-01.webp" (sem espaço),
-// mas por ora encodeURI resolve.
-// ============================
-const TOTAL_FOTOS = 23; // ajuste se adicionar/remover fotos
-const DEFAULT_SIZES = ["P", "M", "G"]; // personalize
-const DEFAULT_PRICE = null; // defina um número ex: 79.9 quando souber
 
-const products = Array.from({ length: TOTAL_FOTOS }, (_, i) => {
-  const n = i + 1;
-  const filename = `IMAGEM (${n}).webp`;
-  const path = `./assets/fotos/${filename}`;
-  return {
-    sku: `GM-${String(n).padStart(3, "0")}`,
-    name: `Produto ${String(n).padStart(2, "0")}`,
-    price: DEFAULT_PRICE, // substitua por números reais por item, se quiser
-    sizes: [...DEFAULT_SIZES],
+// Substitua TODO o bloco do Array.from(...) por isto:
+const products = [
+  {
+    sku: "GM-001",
+    name: "Bermuda Sarja",
+    price: 74.99,                 // número (sem "R$")
+    sizes: ["38, 40, 42, 44, 46, 48"],
     color: "-",
-    image: encodeURI(path), // lida com o espaço em "IMAGEM (n).webp"
-    highlight: n <= 8, // destaque nos 8 primeiros (ajuste à vontade)
-    // imageBase: "./assets/products/exemplo" // quando tiver versões 600/1200
-  };
-});
+    image: encodeURI("./assets/fotos/bermuda-sarja.webp"),
+    highlight: true,
+    // quando tiver versões otimizadas: imageBase: "./assets/products/camiseta-logo-preta"
+  },
+  {
+    sku: "GM-002",
+    name: "Bermuda Cargo",
+    price: 89.99,
+    sizes: ["M, G"],
+    color: "-",
+    image: encodeURI("./assets/fotos/bermuda-cargo.webp"),
+    highlight: true
+  },
+  {
+    sku: "GM-003",
+    name: "Bermuda Dri Fit",
+    price: 44.99, // preço da unidade, conferir depois uma funcionalidade para colocar uma condição especial
+    //03 bermudas por 99,99
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/bermuda-dri-fit.webp"),
+    highlight: false
+  },
+  {
+    sku: "GM-004",
+    name: "Camisas 30.1 penteada",
+    price: 44.99, //03 por 109,99
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/camisas-30.1.webp"),
+    highlight: true
+  },
+  {
+    sku: "GM-005",
+    name: "Polos Nike",
+    price: 69.99,
+    sizes: ["M","G","GG"],
+    color: "-",
+    image: encodeURI("./assets/fotos/polos-nike.webp"),
+    highlight: false
+  },
+  {
+    sku: "GM-006",
+    name: "Polos da Lacoste Picket",
+    price: 69.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/polos-lacoste-picket.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-007",
+    name: "Camisas Plus Size",
+    price: 69.99,
+    sizes: ["G1", "G2", "G3"],
+    color: "-",
+    image: encodeURI("./assets/fotos/camisas-plus-size.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-008",
+    name: "Camisas Oversized",
+    price: 99.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/camisas-oversized.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-009",
+    name: "Peruana Legítima",
+    price: 99.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/peruana-legitima.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-010",
+    name: "Peruana Tradicional",
+    price: 99.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/peruana-tradicional.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-011",
+    name: "Camisas Polo Peruana",
+    price: 99.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/camisas-polo-peruana.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-012",
+    name: "Camisas Polo Sport",
+    price: 99.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/camisas-polo-sport.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-013",
+    name: "Camisas Sport da Lacoste",
+    price: 99.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/camisas-sport-lacoste.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-014",
+    name: "Calça Original Levva Jogador",
+    price: 149.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/calça-original-levva-jogador.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-015",
+    name: "Camisas de Time",
+    price: 69.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/camisas-time.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-016",
+    name: "Bermuda Jeans",
+    price: 69.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/bermuda-jeans.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-017",
+    name: "Tenis diversos",
+    price: 69.99,
+    sizes: ["-"],
+    color: "-",
+    image: encodeURI("./assets/fotos/tenis-diversos.webp"),
+    highlight: false
+  },
+    {
+    sku: "GM-018",
+    name: "5 Cuecas Calvin Klein",
+    price: 49.99,
+    sizes: ["Tradicional"], //infantil e adulto
+    //5 cuecas tamanho plus size 69,99
+    color: "-",
+    image: encodeURI("./assets/fotos/polos-lacoste-picket.webp"),
+    highlight: false
+  }
+];
+
 
 // ============================
 // Utilidades
