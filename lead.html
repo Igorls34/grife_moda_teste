@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quero Desconto — Grife Moda</title>
+  <meta name="description" content="Receba atendimento e ofertas da Grife Moda pelo WhatsApp.">
+  <link rel="stylesheet" href="./css/style.css" />
+
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/logo-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./assets/logo-512.png">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Quero Desconto — Grife Moda">
+  <meta property="og:description" content="Preencha e receba ofertas no WhatsApp.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://grife-moda-teste.vercel.app/assets/logo-512.png">
+  <meta property="og:url" content="https://grife-moda-teste.vercel.app/lead.html">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="./index.html"><img src="./assets/logo.webp" width="32" height="32" alt=""><span>Grife Moda</span></a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+        <ul id="menu" class="menu">
+          <li><a href="./index.html#home">Início</a></li>
+          <li><a href="./colecoes.html">Coleções</a></li>
+          <li><a href="./index.html#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="./lead.html" aria-current="page">Quero desconto</a>
+        <button class="btn btn-accent" id="cta-wpp-top" type="button">Falar no WhatsApp</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding:24px 16px">
+    <h1 class="gold-text">Receba atendimento e ofertas</h1>
+    <p class="muted">Preencha rapidinho e a gente te chama no WhatsApp com promoções e disponibilidade.</p>
+
+    <form id="lead-form" class="card" style="padding:16px;max-width:560px">
+      <div class="field">
+        <label for="nome"><strong>Seu nome</strong></label>
+        <input class="btn" id="nome" name="nome" type="text" placeholder="Ex.: Daniela" required autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label for="zap"><strong>WhatsApp</strong></label>
+        <input class="btn" id="zap" name="zap" type="tel" placeholder="(24) 9 9823-6007" required inputmode="tel" />
+      </div>
+
+      <div class="field">
+        <label for="interesse"><strong>Interesse</strong></label>
+        <select class="btn" id="interesse" name="interesse" required>
+          <option value="Novidades">Novidades</option>
+          <option value="Camisetas">Camisetas</option>
+          <option value="Bermudas">Bermudas</option>
+          <option value="Calças">Calças</option>
+          <option value="Polos">Polos</option>
+          <option value="Promoções">Promoções</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="mensagem"><strong>Mensagem (opcional)</strong></label>
+        <textarea class="btn" id="mensagem" name="mensagem" rows="4" placeholder="Pode mandar os tamanhos disponíveis?"></textarea>
+      </div>
+
+      <label class="dontshow" style="margin:8px 0 16px 0">
+        <input type="checkbox" id="ok" required />
+        Aceito ser contatado(a) pelo WhatsApp para ofertas.
+      </label>
+
+      <div class="cta-row">
+        <button class="btn btn-primary" type="submit">Quero meu desconto</button>
+        <a class="btn" href="./index.html">Voltar</a>
+      </div>
+
+      <p id="lead-feedback" class="muted" aria-live="polite" style="margin-top:10px"></p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© Grife Moda — Volta Redonda/RJ</p>
+    </div>
+  </footer>
+
+  <script src="./js/main.js"></script>
+  <script>
+  (function(){
+    const form = document.getElementById("lead-form");
+    const fb = document.getElementById("lead-feedback");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const zap  = document.getElementById("zap").value.trim();
+      const interesse = document.getElementById("interesse").value;
+      const msgExtra  = document.getElementById("mensagem").value.trim();
+
+      const landingUrl = withUtm(BUSINESS.baseUrl + "/lead.html", {
+        campaign: "lead",
+        content: "lead_form"
+      });
+
+      const linhas = [
+        `Olá, Emerson! Chegou um novo lead da *Grife Moda* 🎯`,
+        ``,
+        `👤 *Nome:* ${nome}`,
+        `📱 *WhatsApp do cliente:* ${zap}`,
+        `🧭 *Interesse:* ${interesse}`,
+        msgExtra ? `📝 *Mensagem:* ${msgExtra}` : null,
+        ``,
+        `🔗 Origem: ${landingUrl}`
+      ].filter(Boolean);
+
+      const href = `https://wa.me/${BUSINESS.wppNumber}?text=${encodeURIComponent(linhas.join("\\n"))}`;
+      fb.textContent = "Abrindo o WhatsApp…";
+      window.open(href, "_blank", "noopener");
+    });
+  })();
+  </script>
+</body>
+</html>

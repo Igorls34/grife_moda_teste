@@ -264,3 +264,49 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--ring);outline-offse
 
 /* Divisor fino dourado */
 .hr-gold{height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.65),transparent);border:0;margin:12px 0}
+/* ====== Beacons (dicas discretas) ====== */
+.beacon {
+  position: absolute;
+  z-index: 25;
+  background: rgba(11,11,12,.92);
+  border: 1px solid rgba(212,175,55,.35);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  font-size: .92rem;
+  pointer-events: none;
+}
+.beacon::after{
+  content:"";
+  position:absolute; width:10px; height:10px; transform:rotate(45deg);
+  background: rgba(11,11,12,.92);
+  border-left:1px solid rgba(212,175,55,.35);
+  border-top:1px solid rgba(212,175,55,.35);
+}
+.beacon-pulse {
+  position: absolute; width:10px; height:10px; border-radius:999px;
+  background: var(--gold);
+  box-shadow: 0 0 0 0 rgba(212,175,55,.45);
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(212,175,55,.45) }
+  70% { box-shadow: 0 0 0 18px rgba(212,175,55,0) }
+  100% { box-shadow: 0 0 0 0 rgba(212,175,55,0) }
+}
+
+/* Posições auxiliares */
+.beacon.top    { transform: translate(-50%, calc(-100% - 12px)); }
+.beacon.right  { transform: translate(12px, -50%); }
+.beacon.bottom { transform: translate(-50%, 12px); }
+.beacon.left   { transform: translate(calc(-100% - 12px), -50%); }
+
+.beacon.top::after    { bottom:-5px; left:50%; transform:translateX(-50%) rotate(45deg); }
+.beacon.right::after  { left:-5px; top:50%; transform:translateY(-50%) rotate(45deg); }
+.beacon.bottom::after { top:-5px; left:50%; transform:translateX(-50%) rotate(45deg); }
+.beacon.left::after   { right:-5px; top:50%; transform:translateY(-50%) rotate(45deg); }
+
+/* Campos da landing com aspecto de input */
+.field { margin: 10px 0 }
+.field .btn { width: 100%; text-align: left }
