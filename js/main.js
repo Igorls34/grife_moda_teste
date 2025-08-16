@@ -1,4 +1,8 @@
 // ============================
+// Grife Moda — main.js (sem parse.html)
+// ============================
+
+// ============================
 // Config do negócio (personalize fácil)
 // ============================
 const BUSINESS = {
